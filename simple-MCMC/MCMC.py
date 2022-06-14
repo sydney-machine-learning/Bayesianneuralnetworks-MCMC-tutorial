@@ -10,6 +10,8 @@ def likelihood(p):
     # Define  data
     x = 100
     n = 100
+# @Sahani - can be update this so this is a difference between two similar distributions so that it gives a better analogy of predicted vs actual?
+
     return binom.pmf(x, n, p)
     
 # This function will accept the current and proposed values 
