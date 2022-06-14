@@ -1,0 +1,3 @@
+# Convergence
+
+## Gelman-Rubin Diagnosis 
