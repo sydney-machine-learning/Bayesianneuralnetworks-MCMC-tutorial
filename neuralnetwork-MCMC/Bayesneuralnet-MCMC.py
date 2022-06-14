@@ -1,15 +1,5 @@
 # !/usr/bin/python
 
-
- 
-
-# Reference for publication for this code
-# [Chandra_ICONIP2017] R. Chandra, L. Azizi, S. Cripps, 'Bayesian neural learning via Langevin dynamicsfor chaotic time series prediction', ICONIP 2017. 
-
-#https://github.com/sydney-machine-learning/parallel-tempering-neural-net
-#Chandra R; Jain K; Deo RV; Cripps S, 2019, 'Langevin-gradient parallel tempering for Bayesian neural learning', 
-#Neurocomputing, vol. 359, pp. 315 - 326, http://dx.doi.org/10.1016/j.neucom.2019.05.082, 
-
  
 
 import numpy as np
@@ -32,7 +22,8 @@ from sklearn.model_selection import train_test_split
 
 
 
-# An example of a class
+# simple neural network with one hidden layer using numpy implementation
+
 class Network:
 	def __init__(self, Topo, Train, Test, learn_rate, prob_type):
 		self.Top = Topo  # NN topology [input, hidden, output]
