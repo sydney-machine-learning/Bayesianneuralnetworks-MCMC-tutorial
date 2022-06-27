@@ -1,9 +1,7 @@
 
 import numpy as np
+from scipy.stats import binom, uniform
 
-from scipy.stats import binom
-
-from scipy.stats import uniform
 
 # Define the Likelihood P(x|p) - binomial distribution
 def likelihood(p):
