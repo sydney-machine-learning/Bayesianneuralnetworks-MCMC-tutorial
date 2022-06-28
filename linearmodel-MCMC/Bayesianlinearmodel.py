@@ -36,14 +36,11 @@ class lin_model:
 			y = z_vec 
 		return y
  
-
 	def predict(self, x_vec ): 
 		z_vec = x_vec.dot(self.w) - self.b 
 		output = self.activation_func(z_vec) # Output  
 		return output
 	
-
-
 	def squared_error(self, prediction, actual):
 		return  np.sum(np.square(prediction - actual))/prediction.shape[0]# to cater more in one output/class
  

@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
+from matplotlib.transforms import Bbox
 import seaborn as sns
+import numpy as np
 
 def histogram_trace(pos_points, fname = None):
     '''
@@ -39,3 +41,45 @@ def histogram_trace(pos_points, fname = None):
         plt.clf()
     else:
         plt.show()
+
+
+def plot_linear_data(x,y,y_modelled=None,ci=False):
+    '''
+    This function will plot the data in linear format.
+    '''
+    sns.set_context("talk")
+    sns.set_style("ticks",{'axes.grid': True})
+
+    fig = plt.figure(figsize=(7,5))
+    ax1 = fig.add_subplot(111)
+
+    sns.scatterplot(
+        x=x.squeeze(),y=y.squeeze(),ax=ax1,
+        label='Data'
+    )
+    
+    sns.lineplot(
+        x=x.squeeze(),y=np.mean(y_modelled,axis=0),
+        ax=ax1,color='red',
+        label='Mean Modelled'
+    )
+
+    if ci:
+        ax1.fill_between(
+            x.squeeze(),
+            np.percentile(y_modelled,5,axis=0),
+            np.percentile(y_modelled,95,axis=0),
+            color='red',alpha=0.2,
+            label='Modelled 95% CI')
+    else:
+        ax1.fill_between(
+            x.squeeze(),
+            np.mean(y_modelled,axis=0)-2*np.std(y_modelled,axis=0),
+            np.mean(y_modelled,axis=0)+2*np.std(y_modelled,axis=0),
+            color='red',alpha=0.2,
+            label='Modelled $\pm 2\sigma$')
+
+    ax1.set_xlabel('x')
+    ax1.set_ylabel('y')
+    plt.legend(loc='center',bbox_to_anchor=(1.3,0.5))
+    plt.show()
