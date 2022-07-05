@@ -332,8 +332,6 @@ class MCMC:
 		naccept = 0
 
 		langevin_count = 0
-		 
-
 
 		for i in range(samples - 1):
 
@@ -344,8 +342,17 @@ class MCMC:
 				w_proposal = np.random.normal(w_gd, step_w, w_size)  
 				w_prop_gd = neuralnet.langevin_gradient(self.traindata, w_proposal.copy(), self.sgd_depth) 
 				#first = np.log(multivariate_normal.pdf(w , w_prop_gd , sigma_diagmat)) 
+				# numerator - how likely is w given w_prop_gd
 				#second = np.log(multivariate_normal.pdf(w_proposal , w_gd , sigma_diagmat)) 
-				# this gives numerical instability - hence we give a simple implementation next that takes out log 
+				# denominator
+
+				# for numerical reasons, we will provide a simplified implementation that simplifies
+				# the mvn of the proposal distribution
+				# This needs to be much better explained in the text and made clear where we have 
+				# gone from a symmetric proposal to needing to eval q
+
+				# detailed balance condition - eq 26
+				# first is top, second is bottom - gives q ratio
 
 				wc_delta = (w- w_prop_gd) 
 				wp_delta = (w_proposal - w_gd )
@@ -385,7 +392,8 @@ class MCMC:
 			diff_likelihood = likelihood_proposal - likelihood
 
 			#mh_prob = min(1, math.exp(diff_likelihood + diff_prior + diff_prop))
-
+			# https://media.springernature.com/lw685/springer-static/image/chp%3A10.1007%2F978-3-319-70139-4_57/MediaObjects/459893_1_En_57_Figa_HTML.gif?as=webp
+			# for { 3. }
 			try:
 				mh_prob = min(1, math.exp(diff_likelihood+diff_prior+ diff_prop))
 
