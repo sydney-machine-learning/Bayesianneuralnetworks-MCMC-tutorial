@@ -5,8 +5,8 @@
 The PDF of a normal distirbution with mean $\mu$ and standard deviatino $\sigma$ is given by
 $$ f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} .$$
 
-![plot](normal_distribution.png)
-![plot](normal_distribution_same_mean.png)
+![plot](normal_dist_1.png)
+![plot](normal_dist_2.png)
 
 ## Multivariate Gaussian distribution
 
@@ -30,8 +30,6 @@ $$
           \frac{2\rho(x-\mu_X)(y-\mu_Y)}{\sigma_X \sigma_Y}
         \right]
       \right)
-
-
 $$
 
 ## Gamma distribution
