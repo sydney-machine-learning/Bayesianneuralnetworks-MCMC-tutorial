@@ -2,8 +2,11 @@
 
 ## Normal Gaussian distributon
 
-The PDF of a normal distirbution with mean $\mu$ and standard deviatino $\sigma$ is given by
-$$ f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} .$$
+The PDF of a normal distirbution with mean $\mu$ and standard deviation $\sigma$ is given by
+
+$$
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} .
+$$
 
 ![plot](normal_dist_1.png)
 ![plot](normal_dist_2.png)
