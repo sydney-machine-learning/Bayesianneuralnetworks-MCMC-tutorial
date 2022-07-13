@@ -1,0 +1,1 @@
+Accuracy train: 86.93877551020408, Accuracy test: 91.3302752293578 , 
