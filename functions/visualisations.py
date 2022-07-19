@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.transforms import Bbox
 import seaborn as sns
 import numpy as np
+import pandas as pd
 
 def histogram_trace(pos_points, fname = None):
     '''
@@ -42,12 +43,19 @@ def histogram_trace(pos_points, fname = None):
     else:
         plt.show()
 
-def plot_ycorr_scatter(y_obs,y_mod):
+def plot_ycorr_scatter(y_obs,y_mod,minmax=True):
     sns.set_context("talk")
     sns.set_style("ticks",{'axes.grid': True})
 
     fig = plt.figure(figsize=(7,5))
     ax1 = fig.add_subplot(111)
+
+    if minmax:
+        ax1.set_xlim(0,1)
+        ax1.set_ylim(0,1)
+        # plot red dashed 1:1 line
+        ax1.plot(ax1.get_xlim(),ax1.get_ylim(),'--r')
+
     sns.scatterplot(
         x=np.mean(y_mod,axis=0).squeeze(),y=y_obs.squeeze(),ax=ax1,
     )
@@ -135,4 +143,23 @@ def plot_linear_data(x,y,y_modelled=None,ci=False):
     ax1.set_xlabel('x')
     ax1.set_ylabel('y')
     plt.legend(loc='center',bbox_to_anchor=(1.3,0.5))
+    plt.show()
+
+
+def boxplot_weights(results, width=20,skip=2):
+    '''
+    Visualise the weights of the Bayesian Neural Network
+    '''
+    fig = plt.figure(figsize=(width,width*0.3))
+    ax1 = fig.add_subplot(111)
+
+    df = pd.melt(results.drop(columns=['rmse']))
+    sns.boxplot(data=df,x='variable',y='value', ax=ax1)
+    # set labels as invisible to help clutter
+    for label in ax1.xaxis.get_ticklabels()[1::skip]:
+        label.set_visible(False)
+    ax1.set_ylabel('Posterior')
+    #         plt.legend(loc='upper right')
+    ax1.set_title("Boxplot of Posterior W (weights and biases)", pad=20)
+    ax1.set_xlabel('$[w_h][w_o][b_h][b_o][tau]$')
     plt.show()
