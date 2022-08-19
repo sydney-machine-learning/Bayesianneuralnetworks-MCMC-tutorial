@@ -4,21 +4,33 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 
-def histogram_trace(pos_points, fname = None):
+def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None):
     '''
     This function will create a histogram and traceplot of the MCMC results.
     ''' 
     size = 15
 
-    plt.tick_params(labelsize=size)
-    params = {'legend.fontsize': size, 'legend.handlelength': 2}
-    plt.rcParams.update(params)
-    plt.grid(alpha=0.75)
+    sns.set(font_scale=1.5)
+    sns.set_style("whitegrid")
+    fig = plt.figure(figsize=(7, 5))
+    if not burn_in is None:
+        plot_points = pos_points[burn_in:,...]
+    else:
+        plot_points = pos_points
 
-    plt.hist(pos_points,  bins = 20, color='#0504aa', alpha=0.7)   
-    plt.title("Posterior distribution ", fontsize = size)
+    ax1 = fig.add_subplot(111)
+    ax1.hist(plot_points,  bins = 20, color='C0', alpha=0.7)
+    x_lims = ax1.get_xlim()
+    if not true_posterior is None:
+        ax2 = ax1.twinx()
+        ax2.grid(False)
+        ax2.plot(true_posterior[:,0], true_posterior[:,1], linewidth=2, color='C1', label='True Distribution')
+        ax2.set_ylim(0, ax2.get_ylim()[1])
+    ax1.set_xlim(x_lims)
+    ax1.set_ylabel('Frequency')
+    plt.title("Frequency ", fontsize = size)
     plt.xlabel(' Parameter value  ', fontsize = size)
-    plt.ylabel(' Frequency ', fontsize = size) 
+    plt.ylabel(' Density ', fontsize = size) 
     plt.tight_layout()
     if not fname is None: 
         plt.savefig(fname + '_posterior.png')
@@ -26,13 +38,14 @@ def histogram_trace(pos_points, fname = None):
     else:
         plt.show()
 
-
-    plt.tick_params(labelsize=size)
-    params = {'legend.fontsize': size, 'legend.handlelength': 2}
-    plt.rcParams.update(params)
-    plt.grid(alpha=0.75) 
-    plt.plot(pos_points)   
-
+    fig = plt.figure(figsize=(12, 5))
+    ax1 = fig.add_subplot(111)
+    if not burn_in is None:
+        ax1.plot(np.arange(burn_in), pos_points[:burn_in], color='C2',label='Burn in')
+        ax1.plot(np.arange(burn_in,pos_points.shape[0]), pos_points[burn_in:], color='C0',label='Posterior')
+    else:
+        ax1.plot(pos_points)   
+    plt.legend(loc='center',bbox_to_anchor=(1.15,0.5))
     plt.title("Parameter trace plot", fontsize = size)
     plt.xlabel(' Number of Samples  ', fontsize = size)
     plt.ylabel(' Parameter value ', fontsize = size)
