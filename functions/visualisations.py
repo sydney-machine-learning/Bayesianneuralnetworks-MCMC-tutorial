@@ -3,8 +3,9 @@ from matplotlib.transforms import Bbox
 import seaborn as sns
 import numpy as np
 import pandas as pd
+import os
 
-def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None):
+def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None, **kwargs):
     '''
     This function will create a histogram and traceplot of the MCMC results.
     ''' 
@@ -12,26 +13,27 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None)
 
     sns.set(font_scale=1.5)
     sns.set_style("whitegrid")
-    fig = plt.figure(figsize=(7, 5))
+    fig = plt.figure(figsize=(9, 4))
     if not burn_in is None:
         plot_points = pos_points[burn_in:,...]
     else:
         plot_points = pos_points
 
     ax1 = fig.add_subplot(111)
-    ax1.hist(plot_points,  bins = 20, color='C0', alpha=0.7)
+    ax1.hist(plot_points,  bins = 20, color='C0', alpha=0.7, label='Sampled posterior')
     x_lims = ax1.get_xlim()
     if not true_posterior is None:
         ax2 = ax1.twinx()
         ax2.grid(False)
         ax2.plot(true_posterior[:,0], true_posterior[:,1], linewidth=2, color='C1', label='True Distribution')
         ax2.set_ylim(0, ax2.get_ylim()[1])
+        ax2.set_ylabel('Density', fontsize = size)
     ax1.set_xlim(x_lims)
-    ax1.set_ylabel('Frequency')
-    plt.title("Frequency ", fontsize = size)
-    plt.xlabel(' Parameter value  ', fontsize = size)
-    plt.ylabel(' Density ', fontsize = size) 
-    plt.tight_layout()
+    ax1.set_ylabel('Frequency', fontsize = size, labelpad=10)
+    ax1.set_xlabel(kwargs.get('param_name','Parameter value'), fontsize = size, labelpad=10)
+    ax1.set_title(kwargs.get('title','Posterior'), fontsize = size, pad=10)
+    plt.legend(bbox_to_anchor=(1.025,0.5),loc='center left')
+    fig.tight_layout()
     if not fname is None: 
         plt.savefig(fname + '_posterior.png')
         plt.clf()
@@ -41,14 +43,14 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None)
     fig = plt.figure(figsize=(12, 5))
     ax1 = fig.add_subplot(111)
     if not burn_in is None:
-        ax1.plot(np.arange(burn_in), pos_points[:burn_in], color='C2',label='Burn in')
-        ax1.plot(np.arange(burn_in,pos_points.shape[0]), pos_points[burn_in:], color='C0',label='Posterior')
+        ax1.plot(np.arange(burn_in), pos_points[:burn_in], color='C2',label='Burn in trace')
+        ax1.plot(np.arange(burn_in,pos_points.shape[0]), pos_points[burn_in:], color='C0',label='Posterior trace')
     else:
-        ax1.plot(pos_points)   
-    plt.legend(loc='center',bbox_to_anchor=(1.15,0.5))
-    plt.title("Parameter trace plot", fontsize = size)
-    plt.xlabel(' Number of Samples  ', fontsize = size)
-    plt.ylabel(' Parameter value ', fontsize = size)
+        ax1.plot(pos_points,label='Posterior trace')   
+    plt.legend(loc='center left',bbox_to_anchor=(1.025,0.5))
+    plt.title("Parameter trace plot", fontsize = size, pad=10)
+    plt.xlabel(' Number of Samples  ', fontsize = size, labelpad=10)
+    plt.ylabel(' Parameter value ', fontsize = size, labelpad=10)
     plt.tight_layout()
     if not fname is None:
         plt.savefig(fname + '_trace.png') 
@@ -117,7 +119,7 @@ def plot_y_timeseries(y_obs,y_mod,dataset_name=None,ci=False):
     plt.legend(loc='center',bbox_to_anchor=(1.3,0.5))
     plt.show()
 
-def plot_linear_data(x,y,y_modelled=None,ci=False):
+def plot_linear_data(x,y,y_modelled=None,y_simulated=None,ci=False,save_fig=False):
     '''
     This function will plot the data in linear format.
     '''
@@ -141,6 +143,21 @@ def plot_linear_data(x,y,y_modelled=None,ci=False):
     if ci:
         ax1.fill_between(
             x.squeeze(),
+            np.percentile(y_simulated,2.5,axis=0),
+            np.percentile(y_simulated,97.5,axis=0),
+            color='orange',alpha=0.2,
+            label='Simulated 95% CI')
+    else:
+        ax1.fill_between(
+            x.squeeze(),
+            np.mean(y_simulated,axis=0)-2*np.std(y_simulated,axis=0),
+            np.mean(y_simulated,axis=0)+2*np.std(y_simulated,axis=0),
+            color='orange',alpha=0.2,
+            label='Simulated $\pm 2\sigma$')
+
+    if ci:
+        ax1.fill_between(
+            x.squeeze(),
             np.percentile(y_modelled,2.5,axis=0),
             np.percentile(y_modelled,97.5,axis=0),
             color='red',alpha=0.2,
@@ -155,7 +172,9 @@ def plot_linear_data(x,y,y_modelled=None,ci=False):
 
     ax1.set_xlabel('x')
     ax1.set_ylabel('y')
-    plt.legend(loc='center',bbox_to_anchor=(1.3,0.5))
+    lgd = plt.legend(loc='center',bbox_to_anchor=(1.3,0.5))
+    if save_fig:
+        fig.savefig(os.path.join('.', 'figures', 'linear_model_fit.png'),bbox_extra_artists=(lgd,), bbox_inches='tight')
     plt.show()
 
 
