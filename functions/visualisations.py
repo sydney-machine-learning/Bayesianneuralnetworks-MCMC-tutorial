@@ -13,7 +13,7 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None,
 
     sns.set(font_scale=1.5)
     sns.set_style("whitegrid")
-    fig = plt.figure(figsize=(9, 4))
+    fig = plt.figure(figsize=(10, 4))
     if not burn_in is None:
         plot_points = pos_points[burn_in:,...]
     else:
@@ -25,35 +25,44 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None,
     if not true_posterior is None:
         ax2 = ax1.twinx()
         ax2.grid(False)
-        ax2.plot(true_posterior[:,0], true_posterior[:,1], linewidth=2, color='C1', label='True Distribution')
+        ax2.plot(true_posterior[:,0], true_posterior[:,1], linewidth=2, color='C1', label='True\nDistribution')
         ax2.set_ylim(0, ax2.get_ylim()[1])
         ax2.set_ylabel('Density', fontsize = size)
     ax1.set_xlim(x_lims)
     ax1.set_ylabel('Frequency', fontsize = size, labelpad=10)
     ax1.set_xlabel(kwargs.get('param_name','Parameter value'), fontsize = size, labelpad=10)
     ax1.set_title(kwargs.get('title','Posterior'), fontsize = size, pad=10)
-    plt.legend(bbox_to_anchor=(1.025,0.5),loc='center left')
+    lgd=plt.legend(bbox_to_anchor=(1.25,0.5),loc='center left')
     fig.tight_layout()
     if not fname is None: 
-        plt.savefig(fname + '_posterior.png')
+        plt.savefig(fname + '_posterior.png', 
+            legend_extra_artists=(lgd,), 
+            bbox_inches='tight',
+            dpi=300
+        )
         plt.clf()
     else:
         plt.show()
 
-    fig = plt.figure(figsize=(12, 5))
+    fig = plt.figure(figsize=(10, 4))
     ax1 = fig.add_subplot(111)
     if not burn_in is None:
-        ax1.plot(np.arange(burn_in), pos_points[:burn_in], color='C2',label='Burn in trace')
+        ax1.plot(np.arange(burn_in), pos_points[:burn_in], color='C3',label='Burn-in trace')
         ax1.plot(np.arange(burn_in,pos_points.shape[0]), pos_points[burn_in:], color='C0',label='Posterior trace')
     else:
         ax1.plot(pos_points,label='Posterior trace')   
-    plt.legend(loc='center left',bbox_to_anchor=(1.025,0.5))
+    lgd = plt.legend(loc='center left',bbox_to_anchor=(1.025,0.5))
     plt.title("Parameter trace plot", fontsize = size, pad=10)
     plt.xlabel(' Number of Samples  ', fontsize = size, labelpad=10)
     plt.ylabel(' Parameter value ', fontsize = size, labelpad=10)
     plt.tight_layout()
     if not fname is None:
-        plt.savefig(fname + '_trace.png') 
+        plt.savefig(
+            fname + '_trace.png', 
+            legend_extra_artists=(lgd,), 
+            bbox_inches='tight',
+            dpi=300
+        )
         plt.clf()
     else:
         plt.show()
