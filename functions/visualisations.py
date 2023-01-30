@@ -59,7 +59,7 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None,
     if not fname is None:
         plt.savefig(
             fname + '_trace.png', 
-            legend_extra_artists=(lgd,), 
+            bbox_extra_artists=(lgd,), 
             bbox_inches='tight',
             dpi=300
         )
@@ -88,11 +88,11 @@ def plot_ycorr_scatter(y_obs,y_mod,minmax=True):
     ax1.set_ylabel('y observed')
     plt.show()
 
-def plot_y_timeseries(y_obs,y_mod,dataset_name=None,ci=False):
+def plot_y_timeseries(y_obs,y_mod,dataset_name=None,ci=False,fname=None):
     sns.set_context("talk")
     sns.set_style("ticks",{'axes.grid': True})
 
-    fig = plt.figure(figsize=(7,5))
+    fig = plt.figure(figsize=(9,4))
     ax1 = fig.add_subplot(111)
 
     x = np.arange(y_obs.shape[0])
@@ -125,8 +125,17 @@ def plot_y_timeseries(y_obs,y_mod,dataset_name=None,ci=False):
         ax1.set_title('{} Data'.format(dataset_name))
     ax1.set_xlabel('Timestep')
     ax1.set_ylabel('Y')
-    plt.legend(loc='center',bbox_to_anchor=(1.3,0.5))
-    plt.show()
+    lgd = plt.legend(loc='center left',bbox_to_anchor=(1.05,0.5))
+    if not fname is None:
+        plt.savefig(
+            fname + '.png', 
+            bbox_extra_artists=(lgd,), 
+            bbox_inches='tight',
+            dpi=300
+        )
+        plt.clf()
+    else:
+        plt.show()
 
 def plot_linear_data(x,y,y_modelled=None,y_simulated=None,ci=False,save_fig=False):
     '''
