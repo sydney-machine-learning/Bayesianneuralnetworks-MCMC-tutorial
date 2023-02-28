@@ -88,7 +88,7 @@ def plot_ycorr_scatter(y_obs,y_mod,minmax=True):
     ax1.set_ylabel('y observed')
     plt.show()
 
-def plot_y_timeseries(y_obs,y_mod,dataset_name=None,ci=False,fname=None):
+def plot_y_timeseries(y_obs,y_mod,y_sim=None,dataset_name=None,ci=False,fname=None):
     sns.set_context("talk")
     sns.set_style("ticks",{'axes.grid': True})
 
@@ -104,7 +104,7 @@ def plot_y_timeseries(y_obs,y_mod,dataset_name=None,ci=False,fname=None):
     )
     sns.lineplot(
         x=x,y=np.mean(y_mod,axis=0),
-        ax=ax1,color='red',
+        ax=ax1,color='C3',
         label='Modelled'
     )
     if ci:
@@ -112,15 +112,30 @@ def plot_y_timeseries(y_obs,y_mod,dataset_name=None,ci=False,fname=None):
             x,
             np.percentile(y_mod,2.5,axis=0),
             np.percentile(y_mod,97.5,axis=0),
-            color='red',alpha=0.2,
+            color='C3',alpha=0.2,
             label='Modelled 95% CI')
+        if not y_sim is None:
+            ax1.fill_between(
+                x,
+                np.percentile(y_sim,2.5,axis=0),
+                np.percentile(y_sim,97.5,axis=0),
+                color='C1',alpha=0.2,
+                label='Simulated 95% CI')
     else:
         ax1.fill_between(
             x,
             np.mean(y_mod,axis=0)-2*np.std(y_mod,axis=0),
             np.mean(y_mod,axis=0)+2*np.std(y_mod,axis=0),
-            color='red',alpha=0.2,
+            color='C3',alpha=0.2,
             label='Modelled $\pm 2\sigma$')
+        if not y_sim is None:
+            ax1.fill_between(
+                x,
+                np.mean(y_sim,axis=0)-2*np.std(y_sim,axis=0),
+                np.mean(y_sim,axis=0)+2*np.std(y_sim,axis=0),
+                color='C1',alpha=0.2,
+                label='Simulated $\pm 2\sigma$')
+    
     if dataset_name is not None:
         ax1.set_title('{} Data'.format(dataset_name))
     ax1.set_xlabel('Timestep')
