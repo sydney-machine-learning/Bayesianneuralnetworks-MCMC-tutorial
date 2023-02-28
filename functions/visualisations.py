@@ -67,18 +67,17 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None,
     else:
         plt.show()
 
-def plot_ycorr_scatter(y_obs,y_mod,minmax=True):
+def plot_ycorr_scatter(y_obs,y_mod,minmax=(0,1)):
     sns.set_context("talk")
     sns.set_style("ticks",{'axes.grid': True})
 
     fig = plt.figure(figsize=(7,5))
     ax1 = fig.add_subplot(111)
 
-    if minmax:
-        ax1.set_xlim(0,1)
-        ax1.set_ylim(0,1)
-        # plot red dashed 1:1 line
-        ax1.plot(ax1.get_xlim(),ax1.get_ylim(),'--r')
+    ax1.set_xlim(minmax[0],minmax[1])
+    ax1.set_ylim(minmax[0],minmax[1])
+    # plot red dashed 1:1 line
+    ax1.plot(ax1.get_xlim(),ax1.get_ylim(),'--r')
 
     sns.scatterplot(
         x=np.mean(y_mod,axis=0).squeeze(),y=y_obs.squeeze(),ax=ax1,
@@ -218,7 +217,7 @@ def boxplot_weights(results, width=20,skip=2):
     fig = plt.figure(figsize=(width,width*0.3))
     ax1 = fig.add_subplot(111)
 
-    df = pd.melt(results.drop(columns=['rmse']))
+    df = pd.melt(results.drop(columns=['rmse'],errors='ignore'))
     sns.boxplot(data=df,x='variable',y='value', ax=ax1)
     # set labels as invisible to help clutter
     for label in ax1.xaxis.get_ticklabels()[1::skip]:
