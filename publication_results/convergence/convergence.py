@@ -60,4 +60,5 @@ def main():
 	
 	gelman_rubin(data)
 
-if __name__ == "__main__": main()i
+if __name__ == "__main__":
+    main()
