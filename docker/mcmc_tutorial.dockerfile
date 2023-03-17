@@ -18,3 +18,4 @@ WORKDIR /build
 RUN conda install python=3.9
 RUN conda install numpy seaborn scipy
 RUN conda install ipywidgets jupyterlab
+RUN conda install -c conda-forge xarray dask netCDF4 bottleneck

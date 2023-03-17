@@ -142,7 +142,7 @@ def plot_y_timeseries(y_obs,y_mod,y_sim=None,dataset_name=None,ci=False,fname=No
     lgd = plt.legend(loc='center left',bbox_to_anchor=(1.05,0.5))
     if not fname is None:
         plt.savefig(
-            fname + '.png', 
+            fname, 
             bbox_extra_artists=(lgd,), 
             bbox_inches='tight',
             dpi=300
