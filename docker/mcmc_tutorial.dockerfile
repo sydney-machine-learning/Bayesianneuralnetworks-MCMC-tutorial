@@ -16,6 +16,6 @@ RUN curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.s
     rm -rf /Miniconda3-latest-Linux-x86_64.sh
 WORKDIR /build
 RUN conda install python=3.9
-RUN conda install numpy seaborn scipy
+RUN conda install numpy seaborn scipy tqdm
 RUN conda install ipywidgets jupyterlab
 RUN conda install -c conda-forge xarray dask netCDF4 bottleneck

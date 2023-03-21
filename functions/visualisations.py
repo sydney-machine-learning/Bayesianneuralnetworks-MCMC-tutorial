@@ -147,7 +147,7 @@ def plot_y_timeseries(y_obs,y_mod,y_sim=None,dataset_name=None,ci=False,fname=No
             bbox_inches='tight',
             dpi=300
         )
-        plt.clf()
+        plt.close()
     else:
         plt.show()
 

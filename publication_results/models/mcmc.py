@@ -41,7 +41,7 @@ class MCMC(ABC):
     ################################################################################
 
     @staticmethod
-    def rmse(self, predictions, targets):
+    def rmse(predictions, targets):
         '''
         Additional error metric - root mean square error
         '''
@@ -51,7 +51,7 @@ class MCMC(ABC):
     ################################################################################
 
     @staticmethod
-    def accuracy(self, predictions, targets):
+    def accuracy(predictions, targets):
         '''
         Additional error metric - accuracy
         '''
