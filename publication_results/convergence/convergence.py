@@ -44,7 +44,7 @@ def gelman_rubin(data):
 
     Rhat *= df/(df-2)
 
-    print(Rhat, ' Rhat')
+    # print(Rhat, ' Rhat')
 
     return Rhat
 
