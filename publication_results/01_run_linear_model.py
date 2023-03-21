@@ -26,7 +26,7 @@ from publication_results.models.linear_model import LinearModel
 ################################################################################
 
 
-def run_linear_model(data_name,seed=2023):
+def run_linear_model(data_name,n_samples=10000,model_name='linear',seed=2023):
     np.random.seed(seed)
     os.chdir('/project')
     print('Running linear model on {} data'.format(data_name))
@@ -38,8 +38,7 @@ def run_linear_model(data_name,seed=2023):
     print('Training data shape: {}'.format(train_data.shape))
 
     ## MCMC Settings and Setup
-    n_samples = 10000 # number of samples to draw from the posterior
-    burn_in = int(n_samples* 0.25) # number of samples to discard before recording draws from the posterior
+    burn_in = int(n_samples* 0.5) # number of samples to discard before recording draws from the posterior
 
     # or load from sunspot data
     x_data = train_data[:,:-1]
@@ -83,8 +82,8 @@ def run_linear_model(data_name,seed=2023):
         }
     )
     # save the results
-    os.makedirs('publication_results/results/linear_model', exist_ok=True)
-    mcmc_run.to_netcdf('publication_results/results/linear_model/mcmc_{}_{}.nc'.format(name,seed))
+    os.makedirs('publication_results/results/{}_model'.format(model_name), exist_ok=True)
+    mcmc_run.to_netcdf('publication_results/results/{}_model/mcmc_{}_{}.nc'.format(model_name,name,seed))
 
     # gather the predicitons into useful variables
     pred_y = pred['train_pred']
@@ -93,7 +92,7 @@ def run_linear_model(data_name,seed=2023):
     sim_y_test = pred['test_sim']
 
     # save some figures
-    fig_dir = 'publication_results/results/linear_model/figures'
+    fig_dir = 'publication_results/results/{}_model/figures'.format(model_name)
     os.makedirs(fig_dir, exist_ok=True)
     # plot the data with the model predictions from posterior draws
     plot_y_timeseries(
@@ -133,11 +132,16 @@ if __name__ == '__main__':
     # nohup python ./publication_results/01_run_linear_model.py > ./publication_results/linear_results.out &
 
     data_cases = ['Sunspot', 'Abalone', 'Iris', 'Ionosphere'] #
-    num_chain = 5
+    num_chain = 5 # traceplots - 1, results - 5
+    # number of samples to draw from the posterior
+    n_samples = 10000 # traceplots - 50000, results - 10000
+    model_name = 'linear' # traceplots - 'linear_tp', results - 'linear
     for this_case in data_cases:
         for this_chain in np.arange(num_chain):
             run_linear_model(
                 this_case,
+                n_samples=n_samples,
+                model_name= model_name,
                 seed=2023+this_chain
             )
 

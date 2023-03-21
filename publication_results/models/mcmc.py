@@ -317,13 +317,13 @@ class MCMC_Linear(MCMC):
         self.pos_theta = pos_theta[self.n_burnin:, ]
         self.pos_tau = pos_tau[self.n_burnin:, ] 
         self.pos_eta = pos_eta[self.n_burnin:, ]
-        self.rmse_data = rmse_data[self.n_burnin:]
+        # self.rmse_data = rmse_data[self.n_burnin:]
 
         # split theta into w and b
         results_dict = {'w{}'.format(_): self.pos_theta[:, _].squeeze() for _ in range(self.theta_size-1)}
         results_dict['b'] = self.pos_theta[:, -1].squeeze()
         results_dict['tau'] = self.pos_tau.squeeze()
-        results_dict['rmse'] = self.rmse_data.squeeze()
+        # results_dict['rmse'] = self.rmse_data.squeeze()
 
         # return the predictions
         pred_dict = {}

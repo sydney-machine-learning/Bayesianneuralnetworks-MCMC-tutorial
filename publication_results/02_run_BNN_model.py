@@ -26,7 +26,7 @@ from types import MethodType
 ################################################################################
 ################################################################################
 
-def run_bnn_model(data_name,seed=2023):
+def run_bnn_model(data_name,n_samples=10000,model_name='bnn',seed=2023):
     np.random.seed(seed)
 
     os.chdir('/project')
@@ -41,7 +41,6 @@ def run_bnn_model(data_name,seed=2023):
     print('Test data shape: {}'.format(test_data.shape))
 
     ## MCMC Settings and Setup
-    n_samples       = 10000 # number of samples to draw from the posterior
     burn_in         = int(n_samples* 0.5) # number of samples to discard before recording draws from the posterior
     hidden          = 10
     learning_rate   = 0.01
@@ -88,8 +87,8 @@ def run_bnn_model(data_name,seed=2023):
         }
     )
     # save the results
-    os.makedirs('publication_results/results/bnn_model', exist_ok=True)
-    mcmc_run.to_netcdf('publication_results/results/bnn_model/mcmc_{}_{}.nc'.format(name,seed))
+    os.makedirs('publication_results/results/{}_model'.format(model_name), exist_ok=True)
+    mcmc_run.to_netcdf('publication_results/results/{}_model/mcmc_{}_{}.nc'.format(model_name,name,seed))
 
 
     # gather the predicitons into useful variables
@@ -99,7 +98,7 @@ def run_bnn_model(data_name,seed=2023):
     sim_y_test = pred['test_sim']
 
     # save some figures
-    fig_dir = 'publication_results/results/bnn_model/figures'
+    fig_dir = 'publication_results/results/{}_model/figures'.format(model_name)
     os.makedirs(fig_dir, exist_ok=True)
     # plot the data with the model predictions from posterior draws
     plot_y_timeseries(
@@ -140,12 +139,17 @@ if __name__ == "__main__":
     # to run this in the background
     # nohup python ./publication_results/02_run_BNN_model.py > ./publication_results/bnn_results.out &
 
-    data_cases = ['Ionosphere'] # ['Sunspot', 'Abalone', 'Iris', 'Ionosphere']
-    num_chain = 5
+    data_cases = ['Ionosphere','Sunspot', 'Abalone', 'Iris']
+    num_chain = 5 # traceplots - 1, results - 5
+    # number of samples to draw from the posterior
+    n_samples = 10000 # traceplots - 50000, results - 10000
+    model_name = 'bnn' # traceplots - 'bnn_tp', results - 'bnn'
     for this_case in data_cases:
         for this_chain in np.arange(num_chain):
             run_bnn_model(
                 this_case,
+                n_samples=n_samples,
+                model_name=model_name,
                 seed=2023+this_chain
             )
 
