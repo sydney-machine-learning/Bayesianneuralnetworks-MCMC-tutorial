@@ -70,6 +70,8 @@ def run_bnn_model(data_name,n_samples=10000,model_name='bnn',seed=2023):
     results, pred = mcmc.sampler()
 
     # store results - create an xarray dataset
+    # look, this is a horribly storage inefficient way of achieving our ends
+    # so please be careful if you're recreating with bigger networks.
     n_posterior_samples = results.shape[0]
     mcmc_run = xr.Dataset(
         data_vars=ChainMap(*[{
