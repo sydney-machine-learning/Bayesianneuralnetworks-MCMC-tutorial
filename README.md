@@ -11,5 +11,6 @@ Bayesian neural networks via MCMC: tutorial
 Data Analytics for Resources and Environment (DARE), ARC Industrial Transformation Training Centre, University of Sydney, Sydney, Australia
 
 ## Data citations
-- Abalone: Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
-- Sunspot / Ionosphere / Iris: ?
+- Abalone | Ionosphere | Iris: Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
+- Sunspot - Reference Rohit
+- Iris has been split with a custom train and test. has been oversampled. Is this to balance classes? Class 0 is not in test.
