@@ -44,7 +44,7 @@ def gelman_rubin(data):
 
     Rhat *= df/(df-2)
 
-    print(Rhat, ' Rhat')
+    # print(Rhat, ' Rhat')
 
     return Rhat
 
@@ -60,4 +60,5 @@ def main():
 	
 	gelman_rubin(data)
 
-if __name__ == "__main__": main()i
+if __name__ == "__main__":
+    main()
