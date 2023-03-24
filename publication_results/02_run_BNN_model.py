@@ -141,7 +141,7 @@ if __name__ == "__main__":
     # to run this in the background
     # nohup python ./publication_results/02_run_BNN_model.py > ./publication_results/bnn_results.out &
 
-    data_cases = ['Ionosphere','Sunspot', 'Abalone', 'Iris']
+    data_cases = ['Iris'] # ['Ionosphere','Sunspot', 'Abalone', 'Iris']
     num_chain = 5 # traceplots - 1, results - 5
     # number of samples to draw from the posterior
     n_samples = 10000 # traceplots - 50000, results - 10000

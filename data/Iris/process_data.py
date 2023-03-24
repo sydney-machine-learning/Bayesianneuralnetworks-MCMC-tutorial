@@ -1,40 +1,22 @@
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 def main():
-    data = np.genfromtxt("iris.csv", delimiter=";")
-    classes = data[:, 4].reshape(data.shape[0], 1) - 1
-    features = data[:, 0:4]  # Normalizing Data
+    data = pd.read_csv("data/Iris/iris.csv", header=None, delimiter=";")
+    # data = np.genfromtxt("iris.csv", delimiter=";")
 
-    name = "Iris"
-    hidden = 12
-    input = 4  # input
-    output = 3
+    scaler = StandardScaler()
+    scld = scaler.fit_transform(data)
+    # lazy way to keep our outputs nice
+    data.iloc[:,:-1] = scld[:,:-1]
+    # and we need to go to python indexing
+    data.iloc[:,-1] -= 1
 
-    for k in range(input):
-        mean = np.mean(features[:, k])
-        dev = np.std(features[:, k])
-        features[:, k] = (features[:, k] - mean) / dev
-    train_ratio = 0.7  # choose
-    indices = np.random.permutation(features.shape[0])
-    traindata = pd.DataFrame(
-        np.hstack(
-            [
-                features[indices[: np.int64(train_ratio * features.shape[0])], :],
-                classes[indices[: np.int64(train_ratio * features.shape[0])], :],
-            ]
-        )
-    )
-    testdata = pd.DataFrame(
-        np.hstack(
-            [
-                features[indices[np.int64(train_ratio * features.shape[0])] :, :],
-                classes[indices[np.int64(train_ratio * features.shape[0])] :, :],
-            ]
-        )
-    )
-    traindata.to_csv("train.txt", index=False, header=False, sep=" ")
-    testdata.to_csv("test.txt", index=False, header=False, sep=" ")
+    raw_train, raw_test = train_test_split(data, test_size=0.3, shuffle=True, random_state=2023)
+    raw_train.to_csv("data/Iris/train.txt", index=False,header=False, sep=' ')
+    raw_test.to_csv("data/Iris/test.txt", index=False,header=False, sep=' ')
 
 if __name__ == "__main__":
     main()
