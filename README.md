@@ -12,5 +12,4 @@ Data Analytics for Resources and Environment (DARE), ARC Industrial Transformati
 
 ## Data citations
 - Abalone | Ionosphere | Iris: Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
-- Sunspot - Reference Rohit
-- Iris has been split with a custom train and test. has been oversampled. Is this to balance classes? Class 0 is not in test.
+- Sunspot: Vanlommel, P., Cugnon, P., Linden, R. V. D., Berghmans, D., & Clette, F. (2004). The SIDC: world data center for the sunspot index. Solar Physics, 224, 113-120.
