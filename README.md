@@ -13,6 +13,14 @@ Code to reproduce the results in the paper is available in:
 
 - `publication_results/`
 
+## Docker
+
+A [Docker enviroment for this tutorial is available on DockerHub](https://docs.docker.com/docker-hub/quickstart/) and can be pulled with:
+
+```bash
+docker pull jsimdare/mcmc-tutorial:latest
+```
+
 ## Acknowledgements
 
 Data Analytics for Resources and Environment (DARE), ARC Industrial Transformation Training Centre, University of Sydney, Sydney, Australia (https://darecentre.org.au)
