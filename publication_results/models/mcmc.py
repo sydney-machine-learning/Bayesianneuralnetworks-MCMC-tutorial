@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from abc import ABC, abstractmethod
+from tqdm import tqdm
 
 ################################################################################
 ################################################################################
@@ -263,7 +264,7 @@ class MCMC_Linear(MCMC):
 
         n_accept = 0  
         ## Run the MCMC sample for n_samples
-        for ii in np.arange(1,self.n_samples):
+        for ii in tqdm(np.arange(1,self.n_samples)):
             # Sample new values for theta and tau using a Gaussian random walk
             theta_proposal = theta + np.random.normal(0, self.step_theta, self.theta_size)
             eta_proposal = eta + np.random.normal(0, self.step_eta, 1) # sample tau^2 in log space
@@ -433,7 +434,7 @@ class MCMC_BNN(MCMC):
         n_accept = 0  
         n_langevin = 0
         # Run the MCMC sample for n_samples
-        for ii in np.arange(1,self.n_samples):
+        for ii in tqdm(np.arange(1,self.n_samples)):
             # Sample new values for theta and tau
             theta_proposal = theta + np.random.normal(0, self.step_theta, self.theta_size)
 
