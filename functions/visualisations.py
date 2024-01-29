@@ -35,8 +35,8 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None,
     lgd=plt.legend(bbox_to_anchor=(1.25,0.5),loc='center left')
     fig.tight_layout()
     if not fname is None: 
-        plt.savefig(fname + '_posterior.png', 
-            legend_extra_artists=(lgd,), 
+        plt.savefig(fname + '_posterior.pgf', 
+            bbox_extra_artists=(lgd,), 
             bbox_inches='tight',
             dpi=300
         )
@@ -58,7 +58,7 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None,
     plt.tight_layout()
     if not fname is None:
         plt.savefig(
-            fname + '_trace.png', 
+            fname + '_trace.pgf', 
             bbox_extra_artists=(lgd,), 
             bbox_inches='tight',
             dpi=300
