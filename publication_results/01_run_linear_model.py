@@ -100,15 +100,30 @@ def run_linear_model(data_name,n_samples=10000,model_name='linear',seed=2023):
         pred_y,
         dataset_name=name + ' Train',
         ci=True,
-        fname=os.path.join(fig_dir,'{}_{}_train.png'.format(name,seed))
+        fname=os.path.join(fig_dir,'{}_{}_train.pgf'.format(name,seed))
     )
     plot_y_timeseries(
         y_test,
         pred_y_test,
         dataset_name=name + ' Test',
         ci=True,
-        fname=os.path.join(fig_dir,'{}_{}_test.png'.format(name,seed))
+        fname=os.path.join(fig_dir,'{}_{}_test.pgf'.format(name,seed))
     )
+    if data_case == 'regression':
+        plot_ycorr_scatter(
+            np.diff(y_data),
+            np.diff(pred_y,axis=1),
+            minmax=None,
+            fname=os.path.join(fig_dir,'{}_{}_train_dy.pgf'.format(name,seed)),
+            dy=True
+        )
+        plot_ycorr_scatter(
+            np.diff(y_test),
+            np.diff(pred_y_test,axis=1),
+            minmax=None,
+            fname=os.path.join(fig_dir,'{}_{}_test_dy.pgf'.format(name,seed)),
+            dy=True
+        )
 
     # Print the train/test RMSE
     if data_case == 'regression':
@@ -116,7 +131,13 @@ def run_linear_model(data_name,n_samples=10000,model_name='linear',seed=2023):
         train_RMSE = np.array([mcmc.rmse(pred_y[_,:], y_data) for _ in np.arange(pred_y.shape[0])])
         test_RMSE = np.array([mcmc.rmse(pred_y_test[_,:], y_test) for _ in np.arange(pred_y_test.shape[0])])
         print('Train RMSE: {:.5f} ({:.5f})'.format(train_RMSE.mean(),train_RMSE.std()))
-        print('Test RMSE: {:.5f} ({:.5f})'.format(test_RMSE.mean(),test_RMSE.std()))  
+        print('Test RMSE: {:.5f} ({:.5f})'.format(test_RMSE.mean(),test_RMSE.std()))
+
+        print('R2 of dy: mean (std)')  
+        train_R2 = np.array([mcmc.r2(pred_y[_,1:]-y_data[:-1], np.diff(y_data)) for _ in np.arange(pred_y.shape[0])])
+        test_R2 = np.array([mcmc.r2(pred_y_test[_,1:]-y_test[:-1], np.diff(y_test)) for _ in np.arange(pred_y_test.shape[0])])
+        print('Train R2 (dy): {:.5f} ({:.5f})'.format(train_R2.mean(),train_R2.std()))
+        print('Test R2 (dy): {:.5f} ({:.5f})'.format(test_R2.mean(),test_R2.std()))
     elif data_case == 'classification':
         print('Accuracy: mean (std)')
         train_acc = np.array([mcmc.accuracy(pred_y[_,:], y_data) for _ in np.arange(pred_y.shape[0])])
@@ -131,7 +152,7 @@ if __name__ == '__main__':
     # to run this in the background
     # nohup python ./publication_results/01_run_linear_model.py > ./publication_results/linear_results.out &
 
-    data_cases = ['Iris'] #['Sunspot', 'Abalone', 'Iris', 'Ionosphere'] #
+    data_cases = ['Sunspot','Abalone','Iris','Ionosphere'] #['Sunspot', 'Abalone', 'Iris', 'Ionosphere'] #
     num_chain = 5 # traceplots - 1, results - 5
     # number of samples to draw from the posterior
     n_samples = 10000 # traceplots - 50000, results - 10000

@@ -21,7 +21,7 @@ def gelman_rubin(data):
     Rhat = Vhat/W
 
     # advanced version that accounts for ndof
-    m, n = np.float(Nchains), np.float(Nsamples)
+    m, n = np.float64(Nchains), np.float64(Nsamples)
     si2 = data.var(axis=1)
     xi_bar = data.mean(axis=1)
     xi2_bar = data.mean(axis=1)**2

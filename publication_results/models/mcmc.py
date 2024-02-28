@@ -52,6 +52,18 @@ class MCMC(ABC):
     ################################################################################
 
     @staticmethod
+    def r2(predictions, targets):
+        '''
+        Additional error metric - R^2
+        '''
+        ssr = np.sum((predictions - targets)**2)
+        sst = np.sum((targets - np.mean(targets))**2)
+        return 1 - (ssr / sst)
+
+    ################################################################################
+    ################################################################################
+
+    @staticmethod
     def accuracy(predictions, targets):
         '''
         Additional error metric - accuracy
@@ -264,7 +276,7 @@ class MCMC_Linear(MCMC):
 
         n_accept = 0  
         ## Run the MCMC sample for n_samples
-        for ii in tqdm(np.arange(1,self.n_samples)):
+        for ii in tqdm(np.arange(1,self.n_samples),miniters=np.int64(self.n_samples/20)):
             # Sample new values for theta and tau using a Gaussian random walk
             theta_proposal = theta + np.random.normal(0, self.step_theta, self.theta_size)
             eta_proposal = eta + np.random.normal(0, self.step_eta, 1) # sample tau^2 in log space
@@ -434,7 +446,7 @@ class MCMC_BNN(MCMC):
         n_accept = 0  
         n_langevin = 0
         # Run the MCMC sample for n_samples
-        for ii in tqdm(np.arange(1,self.n_samples)):
+        for ii in tqdm(np.arange(1,self.n_samples),miniters=np.int64(self.n_samples/20)):
             # Sample new values for theta and tau
             theta_proposal = theta + np.random.normal(0, self.step_theta, self.theta_size)
 

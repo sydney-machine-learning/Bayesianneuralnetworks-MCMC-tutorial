@@ -67,15 +67,19 @@ def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None,
     else:
         plt.show()
 
-def plot_ycorr_scatter(y_obs,y_mod,minmax=(0,1)):
+def plot_ycorr_scatter(y_obs,y_mod,minmax=(0,1),fname=None,dy=False):
     sns.set_context("talk")
     sns.set_style("ticks",{'axes.grid': True})
 
     fig = plt.figure(figsize=(7,5))
     ax1 = fig.add_subplot(111)
 
-    ax1.set_xlim(minmax[0],minmax[1])
-    ax1.set_ylim(minmax[0],minmax[1])
+    if not minmax is None:
+        ax1.set_xlim(minmax[0],minmax[1])
+        ax1.set_ylim(minmax[0],minmax[1])
+    else:
+        ax1.set_xlim(np.min([y_obs.min(),y_mod.min()]),np.max([y_obs.max(),y_mod.max()]))
+        ax1.set_ylim(np.min([y_obs.min(),y_mod.min()]),np.max([y_obs.max(),y_mod.max()]))
     # plot red dashed 1:1 line
     ax1.plot(ax1.get_xlim(),ax1.get_ylim(),'--r')
 
@@ -83,9 +87,22 @@ def plot_ycorr_scatter(y_obs,y_mod,minmax=(0,1)):
         x=np.mean(y_mod,axis=0).squeeze(),y=y_obs.squeeze(),ax=ax1,
     )
 
-    ax1.set_xlabel('y modelled')
-    ax1.set_ylabel('y observed')
-    plt.show()
+    if not dy:
+        ax1.set_xlabel('Y modelled')
+        ax1.set_ylabel('Y observed')
+    else:
+        ax1.set_xlabel('$\Delta$Y modelled')
+        ax1.set_ylabel('$\Delta$Y observed')
+
+    if not fname is None:
+        plt.savefig(
+            fname,
+            bbox_inches='tight',
+            dpi=300
+        )
+        plt.close()
+    else:
+        plt.show()
 
 def plot_y_timeseries(y_obs,y_mod,y_sim=None,dataset_name=None,ci=False,fname=None):
     sns.set_context("talk")
