@@ -4,6 +4,8 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 import os
+from sklearn.metrics import confusion_matrix
+from scipy.stats import mode
 
 def histogram_trace(pos_points, true_posterior=None, burn_in=None, fname = None, **kwargs):
     '''
@@ -226,7 +228,24 @@ def plot_linear_data(x,y,y_modelled=None,y_simulated=None,ci=False,save_fig=Fals
         fig.savefig(os.path.join('.', 'figures', 'linear_model_fit.png'),bbox_extra_artists=(lgd,), bbox_inches='tight')
     plt.show()
 
+def plot_confusion_matrix(obs_y, pred_y, title='Confusion matrix', cmap=plt.cm.Blues):
+    sns.set_context("talk")
+    sns.set_style("ticks",{'axes.grid': True})
 
+    fig = plt.figure(figsize=(5,4))
+    ax1 = fig.add_subplot(111) 
+
+    sns.heatmap(
+        confusion_matrix(obs_y, mode(pred_y, axis=0)[0]),
+        annot=True, fmt='.0f', cmap=cmap, ax=ax1,
+        cbar=False
+    )
+    # print(confusion_matrix(obs_y, mode(pred_y, axis=0)[0]))
+    ax1.set_title(title)
+    ax1.set_xlabel('Predicted label')
+    ax1.set_ylabel('Observed label')
+    plt.show()
+    
 def boxplot_weights(results, width=20,skip=2):
     '''
     Visualise the weights of the Bayesian Neural Network

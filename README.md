@@ -4,10 +4,15 @@ We present a tutorial for MCMC methods that covers simple Bayesian linear and lo
 
 Code for the Bayesian neural networks via MCMC tutorial:
 
-- `01 Distributions`: Generat and visualise some basic distributions that will be used throughout the tutorial
-- `02 Basic MCMC.ipynb`: Implementing a basic MCMC algorithm
-- `03 Linear Model.ipynb`: Implementing an MCMC algorithm to fit a Bayesian linear regression model
-- `04 Bayesian Neural Network.ipynb`: Implementing an MCMC algorithm to fit a Bayesian neural network
+- `01-Distributions`: Generat and visualise some basic distributions that will be used throughout the tutorial
+- `02-Basic-MCMC.ipynb`: Implementing a basic MCMC algorithm
+- `03-Linear-Model.ipynb`: Implementing an MCMC algorithm to fit a Bayesian linear regression model
+- `04-Bayesian-Neural-Network.ipynb`: Implementing an MCMC algorithm to fit a Bayesian neural network
+
+Additional examples for classification:
+
+- `03a-Linear-Model-Classification.ipynb`: Implementing an MCMC algorithm to fit a Bayesian logistic regression model
+- `04a-Bayesian-Neural-Network-Classification.ipynb`: Implementing an MCMC algorithm to fit a Bayesian neural network for classification
 
 Code to reproduce the results in the paper is available in:
 
