@@ -519,7 +519,7 @@ class MCMC_BNN(MCMC):
 
         # print the % of times the proposal was accepted
         accept_ratio = (n_accept / self.n_samples) * 100
-        print('{:.3}% was accepted'.format(accept_ratio))
+        print('{:.3}% were acepted'.format(accept_ratio))
 
         # store the posterior of theta and tau, as well as the RMSE of these samples
         self.pos_theta = pos_theta[self.n_burnin:, ]

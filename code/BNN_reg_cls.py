@@ -428,8 +428,8 @@ class MCMC:
 				perf_test[i + 1,] = perf_test[i,]
  
 
-		print(naccept, ' num accepted')
-		print(naccept / (samples * 1.0), '% was accepted')
+		print('{} num accepted / {}'.format(naccept, samples))
+		print(naccept * 100 / (samples * 1.0), '% were accepted')
 		accept_ratio = naccept / (samples * 1.0) * 100
 
 		print(langevin_count, ' langevin_count')
