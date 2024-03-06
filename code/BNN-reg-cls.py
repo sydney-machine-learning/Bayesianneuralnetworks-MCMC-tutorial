@@ -459,7 +459,7 @@ def scikit_linear_mod(x_train, x_test, y_train, y_test): # in case we want to co
 
 
 def main():
-	for problem in range(1, 6): 
+	for problem in range(1, 5): 
 
 		#todo - extend to multiple outputs in case of regression problems
 
@@ -471,7 +471,7 @@ def main():
 		tau_limit = 0.2 # step size for eta
 
 		 
-		if problem == 1:
+		if problem == 1: #https://www.swpc.noaa.gov/products/solar-cycle-progression
 			traindata = np.loadtxt("../data/Sunspot/train.txt")
 			testdata = np.loadtxt("../data/Sunspot/test.txt")  #
 			name    = "Sunspot"
@@ -480,8 +480,8 @@ def main():
 			output = 1
 			prob_type = 'regression' 
 
-		if problem == 2: 
-			filename = '../data/energy/ENB2012_data.csv'
+		if problem == 2:  #https://archive.ics.uci.edu/dataset/242/energy+efficiency
+			filename = '../data/energy/ENB2012_data.csv'  
 			data_in = genfromtxt(filename, delimiter=",") # in case of csv data 
 			data_inputx = data_in[:,0:8]   
 			transformer = Normalizer().fit(data_inputx)  # fit does nothing.
@@ -499,17 +499,17 @@ def main():
 			prob_type = 'regression'
 
 
-		if problem == 3:
-			traindata = np.genfromtxt('../data/Ionesphere/ftrain.csv',delimiter=',')[:,:-1]
-			testdata = np.genfromtxt('../data/Ionesphere/ftest.csv',delimiter=',')[:,:-1]
+		if problem == 3:  #https://archive.ics.uci.edu/dataset/52/ionosphere
+			traindata = np.genfromtxt('../data/Ionosphere/ftrain.csv',delimiter=',')[:,:-1]
+			testdata = np.genfromtxt('../data/Ionosphere/ftest.csv',delimiter=',')[:,:-1]
 			name = "Ionosphere"
 			hidden = 50
 			input = 34 #input
 			output = 2
 			prob_type = 'classification'
 
-		if problem == 4:
-			data  = np.genfromtxt('../data/Iris/iris.csv',delimiter=';')
+		if problem == 4:  #https://archive.ics.uci.edu/dataset/53/iris
+			data  = np.genfromtxt('../data/Iris/iris.csv',delimiter=';') 
 			classes = data[:,4].reshape(data.shape[0],1)-1
 			features = data[:,0:4]#Normalizing Data
 
@@ -524,8 +524,8 @@ def main():
 				features[:,k] = (features[:,k]-mean)/dev
 			train_ratio = 0.7 #choose
 			indices = np.random.permutation(features.shape[0])
-			traindata = np.hstack([features[indices[:np.int(train_ratio*features.shape[0])],:],classes[indices[:np.int(train_ratio*features.shape[0])],:]])
-			testdata = np.hstack([features[indices[np.int(train_ratio*features.shape[0])]:,:],classes[indices[np.int(train_ratio*features.shape[0])]:,:]])
+			traindata = np.hstack([features[indices[:np.int_(train_ratio*features.shape[0])],:],classes[indices[:np.int_(train_ratio*features.shape[0])],:]])
+			testdata = np.hstack([features[indices[np.int_(train_ratio*features.shape[0])]:,:],classes[indices[np.int_(train_ratio*features.shape[0])]:,:]])
 			prob_type = 'classification'
  
 
