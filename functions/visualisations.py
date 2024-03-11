@@ -236,7 +236,7 @@ def plot_confusion_matrix(obs_y, pred_y, title='Confusion matrix', cmap=plt.cm.B
     ax1 = fig.add_subplot(111) 
 
     sns.heatmap(
-        confusion_matrix(obs_y, mode(pred_y, axis=0)[0]),
+        confusion_matrix(obs_y.squeeze(), mode(pred_y, axis=0)[0].squeeze()),
         annot=True, fmt='.0f', cmap=cmap, ax=ax1,
         cbar=False
     )

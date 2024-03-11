@@ -18,6 +18,15 @@ Code to reproduce the results in the paper is available in:
 
 - `publication_results/`
 
+## Python code
+
+In the case of Bayesian neural networks, we provide complete code for regression and classiciation case in 'code' folder with sample plots for regression probllem in 'code/py-results' folder. Note that the datasets have been obtained from the following sources: 
+
+- Sunspot dataset for one-step ahead prediction problem: https://www.swpc.noaa.gov/products/solar-cycle-progression 
+- Energy dataset for regression problem: https://archive.ics.uci.edu/dataset/242/energy+efficiency
+- Ionosphere for binary classification: https://archive.ics.uci.edu/dataset/52/ionosphere
+- Iris for multi-class classification:  https://archive.ics.uci.edu/dataset/53/iris
+
 ## Docker
 
 A [Docker enviroment for this tutorial is available on DockerHub](https://docs.docker.com/docker-hub/quickstart/) and can be pulled with:
