@@ -299,7 +299,7 @@ class MCMC_Linear(MCMC):
             # Noting that likelihood_function and prior_val return log likelihoods,
             # we can use log laws to calculate the acceptance probability
             diff_likelihood = likelihood_proposal - likelihood
-            diff_prior = prior_proposal - prior_val_val
+            diff_prior = prior_proposal - prior_val
 
             mh_prob = min(1, np.exp(diff_likelihood + diff_prior))
 
@@ -492,7 +492,7 @@ class MCMC_BNN(MCMC):
 
             # since we using log scale: based on https://www.rapidtables.com/math/algebra/Logarithm.html
             diff_likelihood = likelihood_proposal - likelihood
-            diff_prior = prior_proposal - prior_val_val
+            diff_prior = prior_proposal - prior_val
             
             mh_prob = min(1, np.exp(diff_likelihood + diff_prior + diff_prop))
 
