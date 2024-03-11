@@ -105,9 +105,9 @@ class MCMC(ABC):
     ################################################################################
 
     # Define the prior
-    def regression_prior_likelihood(self, sigma_squared, nu_1, nu_2, theta, tausq): 
+    def regression_prior(self, sigma_squared, nu_1, nu_2, theta, tausq): 
         '''
-        Calculate the prior likelihood of the parameters
+        Calculate the prior of the parameters
         Input:
             sigma_squared: variance of normal prior for theta
             nu_1: parameter nu_1 of the inverse gamma prior for tau^2
@@ -115,7 +115,7 @@ class MCMC(ABC):
             theta: (M + 1) vector of parameters. The last element of theta consitutes the bias term (giving M + 1 elements)
             tausq: variance of the error term
         Output:
-            log_prior: log prior likelihood
+            log_prior: log prior
         '''
         n_params = self.theta_size # number of parameters in model
         part1 = -1 * (n_params / 2) * np.log(sigma_squared)
@@ -161,9 +161,9 @@ class MCMC(ABC):
     ################################################################################
 
     # Define the prior
-    def classification_prior_likelihood(self, sigma_squared, nu_1, nu_2, theta, tausq=None): 
+    def classification_prior(self, sigma_squared, nu_1, nu_2, theta, tausq=None): 
         '''
-        Calculate the prior likelihood of the parameters
+        Calculate the prior of the parameters
         Input:
             sigma_squared: variance of normal prior for theta
             nu_1: parameter nu_1 of the inverse gamma prior for tau^2
@@ -171,7 +171,7 @@ class MCMC(ABC):
             theta: (M + 1) vector of parameters. The last element of theta consitutes the bias term (giving M + 1 elements)
             tausq: variance of the error term
         Output:
-            log_prior: log prior likelihood
+            log_prior: log prior
         '''
         n_params = self.theta_size # number of parameters in model
         part1 = -1 * (n_params / 2) * np.log(sigma_squared)
@@ -203,7 +203,7 @@ class MCMC_Linear(MCMC):
         self.x_test = x_test # (Nt x num_features)
         self.y_test = y_test # (Nt x 1)
 
-        # MCMC parameters - defines the variance term in our Gaussian random walk
+        # MCMC sampler hyperparameters - defines the variance term in our Gaussian random walk
         self.step_theta = 0.02;  
         self.step_eta = 0.01; # note eta is used as tau in the sampler to consider log scale.  
         
@@ -227,10 +227,10 @@ class MCMC_Linear(MCMC):
         # and clarity
         if self.model.data_case == 'regression':
             self.likelihood_function = self.regression_likelihood_function
-            self.prior_likelihood = self.regression_prior_likelihood
+            self.prior = self.regression_prior_val
         elif self.model.data_case == 'classification':
             self.likelihood_function = self.classification_likelihood_function
-            self.prior_likelihood = self.classification_prior_likelihood
+            self.prior = self.classification_prior_val
         else:
             raise ValueError('data_case must be regression or classification')
         
@@ -269,9 +269,9 @@ class MCMC_Linear(MCMC):
         eta = np.log(np.var(pred_y[0,] - self.y_data))
         tausq_proposal = np.exp(eta)
 
-        # calculate the prior likelihood
-        prior_likelihood = self.prior_likelihood(self.sigma_squared, self.nu_1, self.nu_2, theta, tausq_proposal)
-        # calculate the likelihood considering observations
+        # calculate the prior
+        prior_val = self.prior(self.sigma_squared, self.nu_1, self.nu_2, theta, tausq_proposal)
+        # calculate the log-likelihood considering observations
         [likelihood, pred_y[0,], sim_y[0,], rmse_data[0]] = self.likelihood_function(theta, tausq_proposal)
 
         n_accept = 0  
@@ -282,11 +282,11 @@ class MCMC_Linear(MCMC):
             eta_proposal = eta + np.random.normal(0, self.step_eta, 1) # sample tau^2 in log space
             tausq_proposal = np.exp(eta_proposal)   
 
-            # calculate the prior likelihood
-            prior_proposal = self.prior_likelihood(
+            # calculate the prior
+            prior_proposal = self.prior(
                 self.sigma_squared, self.nu_1, self.nu_2, theta_proposal, tausq_proposal
             )
-            # calculate the likelihood considering observations
+            # calculate the log-likelihood considering observations
             [likelihood_proposal, pred_y[ii,], sim_y[ii,], rmse_data[ii]] = self.likelihood_function(
                 theta_proposal, tausq_proposal
             )
@@ -296,12 +296,12 @@ class MCMC_Linear(MCMC):
                 theta_proposal, tausq_proposal, test=True
             )
 
-            # Noting that likelihood_function and prior_likelihood return log likelihoods,
+            # Noting that likelihood_function and prior_val return log likelihoods,
             # we can use log laws to calculate the acceptance probability
             diff_likelihood = likelihood_proposal - likelihood
-            diff_priorlikelihood = prior_proposal - prior_likelihood
+            diff_prior = prior_proposal - prior_val
 
-            mh_prob = min(1, np.exp(diff_likelihood + diff_priorlikelihood))
+            mh_prob = min(1, np.exp(diff_likelihood + diff_prior))
 
             # sample to accept or reject the proposal according to the acceptance probability
             u = np.random.uniform(0, 1)
@@ -309,7 +309,7 @@ class MCMC_Linear(MCMC):
                 # accept and update the values
                 n_accept += 1
                 likelihood = likelihood_proposal
-                prior_likelihood = prior_proposal
+                prior_val = prior_proposal
                 theta = theta_proposal
                 eta = eta_proposal
                 # store to make up the posterior
@@ -365,7 +365,7 @@ class MCMC_BNN(MCMC):
         self.x_test = x_test # (Nt x num_features)
         self.y_test = y_test # (Nt x 1)
 
-        # MCMC parameters - defines how much variation you need in changes to theta, tau
+        # MCMC sampler hyperparameters - defines how much variation you need in changes to theta, tau
         self.step_theta = 0.025;  
         self.step_eta = 0.2; # note eta is used as tau in the sampler to consider log scale.
         # Hyperpriors
@@ -390,10 +390,10 @@ class MCMC_BNN(MCMC):
         # and clarity
         if self.model.data_case == 'regression':
             self.likelihood_function = self.regression_likelihood_function
-            self.prior_likelihood = self.regression_prior_likelihood
+            self.prior = self.regression_prior_val
         elif self.model.data_case == 'classification':
             self.likelihood_function = self.classification_likelihood_function
-            self.prior_likelihood = self.classification_prior_likelihood
+            self.prior = self.classification_prior_val
         else:
             raise ValueError('data_case must be regression or classification')
 
@@ -438,9 +438,9 @@ class MCMC_BNN(MCMC):
         nu_1 = self.nu_1
         nu_2 = self.nu_2
 
-        # calculate the prior likelihood
-        prior_likelihood = self.prior_likelihood(sigma_squared, nu_1, nu_2, theta, tau_proposal)
-        # calculate the likelihood considering observations
+        # calculate the prior
+        prior_val = self.prior(sigma_squared, nu_1, nu_2, theta, tau_proposal)
+        # calculate the log-likelihood considering observations
         [likelihood, pred_y[0,], sim_y[0,], rmse_data[0]] = self.likelihood_function(theta, tau_proposal)
 
         n_accept = 0  
@@ -476,11 +476,11 @@ class MCMC_BNN(MCMC):
             eta_proposal = eta + np.random.normal(0, self.step_eta, 1)
             tau_proposal = np.exp(eta_proposal)   
 
-            # calculate the prior likelihood
-            prior_proposal = self.prior_likelihood(
+            # calculate the prior
+            prior_proposal = self.prior(
                 sigma_squared, nu_1, nu_2, theta_proposal, tau_proposal
             )  # takes care of the gradients
-            # calculate the likelihood considering observations
+            # calculate the log-likelihood considering observations
             [likelihood_proposal, pred_y[ii,], sim_y[ii,], rmse_data[ii]] = self.likelihood_function(
                 theta_proposal, tau_proposal
             )
@@ -492,9 +492,9 @@ class MCMC_BNN(MCMC):
 
             # since we using log scale: based on https://www.rapidtables.com/math/algebra/Logarithm.html
             diff_likelihood = likelihood_proposal - likelihood
-            diff_priorlikelihood = prior_proposal - prior_likelihood
+            diff_prior = prior_proposal - prior_val
             
-            mh_prob = min(1, np.exp(diff_likelihood + diff_priorlikelihood + diff_prop))
+            mh_prob = min(1, np.exp(diff_likelihood + diff_prior + diff_prop))
 
             u = np.random.uniform(0, 1)
 
@@ -504,7 +504,7 @@ class MCMC_BNN(MCMC):
                 n_accept += 1
                 # update
                 likelihood = likelihood_proposal
-                prior_likelihood = prior_proposal
+                prior_val = prior_proposal
                 theta = theta_proposal
                 eta = eta_proposal
                 # and store
@@ -519,7 +519,7 @@ class MCMC_BNN(MCMC):
 
         # print the % of times the proposal was accepted
         accept_ratio = (n_accept / self.n_samples) * 100
-        print('{:.3}% was accepted'.format(accept_ratio))
+        print('{:.3}% were acepted'.format(accept_ratio))
 
         # store the posterior of theta and tau, as well as the RMSE of these samples
         self.pos_theta = pos_theta[self.n_burnin:, ]
