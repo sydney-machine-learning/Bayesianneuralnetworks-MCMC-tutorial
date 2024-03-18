@@ -43,7 +43,7 @@ Data Analytics for Resources and Environment (DARE), ARC Industrial Transformati
 
 ## Research paper
 
-- R Chandra and J Simmons, Bayesian neural networks via MCMC: a Python-based tutorial, IEEE Access, 2024: arXiv preprint arXiv:2304.02595
+- R Chandra and J Simmons, Bayesian neural networks via MCMC: a Python-based tutorial, IEEE Access, 2024: [arXiv preprint arXiv:2304.02595](https://arxiv.org/abs/2304.02595)
 
 
 ## Data citations
