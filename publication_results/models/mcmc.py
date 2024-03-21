@@ -390,10 +390,10 @@ class MCMC_BNN(MCMC):
         # and clarity
         if self.model.data_case == 'regression':
             self.likelihood_function = self.regression_likelihood_function
-            self.prior = self.regression_prior_val
+            self.prior = self.regression_prior
         elif self.model.data_case == 'classification':
             self.likelihood_function = self.classification_likelihood_function
-            self.prior = self.classification_prior_val
+            self.prior = self.classification_prior
         else:
             raise ValueError('data_case must be regression or classification')
 
