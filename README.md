@@ -37,6 +37,7 @@ A [Docker enviroment for this tutorial is available on DockerHub](https://docs.d
 
 ```bash
 docker pull jsimdare/mcmc-tutorial:latest
+
 ```
 
 ### Required packages
@@ -54,8 +55,11 @@ If you do not wish to use the Docker image, the required packages can installed 
 
 ## Acknowledgements
 
-Development and cleaning of this code was supported by the Data Analytics for Resources and Environment (DARE), ARC Industrial Transformation Training Centre (https://darecentre.org.au)
+Development and cleaning of this code was supported by Royce Chen of UNSW Sydney and the Data Analytics for Resources and Environment (DARE), ARC Industrial Transformation Training Centre (https://darecentre.org.au)
 
+## Research paper
+
+- R Chandra and J Simmons, Bayesian neural networks via MCMC: a Python-based tutorial, IEEE Access, 2024: [arXiv preprint arXiv:2304.02595](https://arxiv.org/abs/2304.02595)
 
 ## Data citations
 - Abalone | Ionosphere | Iris: Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
