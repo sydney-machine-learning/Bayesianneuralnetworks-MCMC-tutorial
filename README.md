@@ -14,6 +14,10 @@ Additional examples for classification:
 - `03a-Linear-Model-Classification.ipynb`: Implementing an MCMC algorithm to fit a Bayesian logistic regression model
 - `04a-Bayesian-Neural-Network-Classification.ipynb`: Implementing an MCMC algorithm to fit a Bayesian neural network for classification
 
+Further examples:
+
+- `05-Linear-Model_NumPyro.ipynb`: An additional example showing how the same linear model can be implemented using NumPyro to take advantage of its state-of-the-art MCMC algorithms (in this case the No-U-Turn Sampler, NUTS)
+
 Code to reproduce the results in the paper is available in:
 
 - `publication_results/`
@@ -36,15 +40,26 @@ docker pull jsimdare/mcmc-tutorial:latest
 
 ```
 
+### Required packages
+If you do not wish to use the Docker image, the required packages can installed using pip:
+
+- numpy
+- scipy
+- seaborn
+- tqdm
+- jupyterlab
+- ipywidgets
+- scikit-learn
+- xarray
+- arviz
+
 ## Acknowledgements
 
-Data Analytics for Resources and Environment (DARE), ARC Industrial Transformation Training Centre, University of Sydney, Sydney, Australia (https://darecentre.org.au) and Royce Chen from UNSW Sydney
-
+Development and cleaning of this code was supported by Royce Chen of UNSW Sydney and the Data Analytics for Resources and Environment (DARE), ARC Industrial Transformation Training Centre (https://darecentre.org.au)
 
 ## Research paper
 
 - R Chandra and J Simmons, Bayesian neural networks via MCMC: a Python-based tutorial, IEEE Access, 2024: [arXiv preprint arXiv:2304.02595](https://arxiv.org/abs/2304.02595)
-
 
 ## Data citations
 - Abalone | Ionosphere | Iris: Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
