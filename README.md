@@ -24,7 +24,7 @@ Code to reproduce the results in the paper is available in:
 
 ## Python code
 
-In the case of Bayesian neural networks, we provide complete code for regression and classiciation case in 'code' folder with sample plots for regression probllem in 'code/py-results' folder. Note that the datasets have been obtained from the following sources: 
+In the case of Bayesian neural networks, we provide complete code for regression and classification case in 'code' folder with sample plots for regression problems in 'code/py-results' folder. Note that the datasets have been obtained from the following sources: 
 
 - Sunspot dataset for one-step ahead prediction problem: https://www.swpc.noaa.gov/products/solar-cycle-progression 
 - Energy dataset for regression problem: https://archive.ics.uci.edu/dataset/242/energy+efficiency
@@ -59,7 +59,7 @@ Development and cleaning of this code was supported by Royce Chen of UNSW Sydney
 
 ## Research paper
 
-- R Chandra and J Simmons, Bayesian neural networks via MCMC: a Python-based tutorial, IEEE Access, 2024: [arXiv preprint arXiv:2304.02595](https://arxiv.org/abs/2304.02595)
+- R. Chandra and J. Simmons, "Bayesian Neural Networks via MCMC: A Python-Based Tutorial," in IEEE Access, vol. 12, pp. 70519-70549, 2024, doi: 10.1109/ACCESS.2024.3401234.   [arXiv preprint arXiv:2304.02595](https://arxiv.org/abs/2304.02595)
   
 ## Lecture
 - Lecture 1: https://youtu.be/L-GjYvW23BE
