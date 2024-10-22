@@ -66,7 +66,7 @@ Development and cleaning of this code was supported by Royce Chen of UNSW Sydney
 - Lecture 2: https://youtu.be/U9qU6HA9Xlc
 - Lecture 3: https://youtu.be/KV9kgqZh8yA
 - Lecture 4: https://youtu.be/ZJfcXfoB8Ec
-- Lecture slides:
+- Lecture [notes used in videos](https://github.com/sydney-machine-learning/Bayesianneuralnetworks-MCMC-tutorial/tree/main/lecture)
 
 ## Data citations
 - Abalone | Ionosphere | Iris: Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
