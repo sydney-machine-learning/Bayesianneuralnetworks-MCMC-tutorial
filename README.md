@@ -60,6 +60,13 @@ Development and cleaning of this code was supported by Royce Chen of UNSW Sydney
 ## Research paper
 
 - R Chandra and J Simmons, Bayesian neural networks via MCMC: a Python-based tutorial, IEEE Access, 2024: [arXiv preprint arXiv:2304.02595](https://arxiv.org/abs/2304.02595)
+  
+## Lecture
+- Lecture 1: https://youtu.be/L-GjYvW23BE
+- Lecture 2: https://youtu.be/U9qU6HA9Xlc
+- Lecture 3: https://youtu.be/KV9kgqZh8yA
+- Lecture 4: https://youtu.be/ZJfcXfoB8Ec
+- Lecture slides:
 
 ## Data citations
 - Abalone | Ionosphere | Iris: Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
